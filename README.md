@@ -7,6 +7,7 @@ redux 공부를 위한 틱택토 게임입니다. (진행중..)<br><br>
 - React
 - Redux Toolkit
 - Emotion
+- Typescript
 
 <br>
 
