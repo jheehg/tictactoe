@@ -1,17 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-//* board slice
-const initialGameState = { 
+export interface GameState {
+  board: number[][];
+  player: number;
+  turn: number;
+  start: boolean;
+  result: string[];
+}
+
+const initialGameState: GameState = {
   board: [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""]
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
   ],
-  player: 0, 
+  player: 0,
   turn: 0,
   start: false,
+  result: [],
 };
 
+//* board slice
 const gameSlice = createSlice({
   name: 'game',
   initialState: initialGameState,
@@ -21,6 +30,10 @@ const gameSlice = createSlice({
       //console.log(action.payload);
       state.board[position[0]][position[1]] = mark;
       state.turn = turn;
+    },
+    savePosition(state, action) {
+      const { result } = action.payload;
+      state.result = result;
     },
     // 게임 시작 또는 끝에 호출
     setStart(state, action) {
@@ -35,17 +48,17 @@ const gameSlice = createSlice({
       state.start = true;
     },
     // 게임 종료 호출
-    reset(state) { 
+    reset(state) {
       state.board = [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
       ];
       state.player = 0;
-      state.turn =  0;
+      state.turn = 0;
       state.start = false;
     },
-  }
+  },
 });
 
 export const gameActions = gameSlice.actions;

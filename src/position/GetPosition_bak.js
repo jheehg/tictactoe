@@ -19,6 +19,76 @@ export const getRandomPosition = (state) => {
   return [ridx, cidx];
 };
 
+export const addPriority = (state, player) => {
+  const result = getCount(state, player);
+  let newPriority = [];
+
+  for (let line in result) {
+    if (typeof result[line] !== "number") {
+      let count = 0;
+      // console.log(result[line], line, player);
+      result[line].forEach((mark) => {
+        if (mark === player) count++;
+      });
+      if (count === 2) {
+        newPriority.push(line);
+        console.log("[" + player + "]newPriority: " + newPriority);
+      }
+    }
+  }
+
+  return newPriority;
+};
+
+export const getPositionInPriority = (state, priority) => {
+  let row = -1,
+    col = -1;
+  let line = "";
+
+  if (priority.attack.length > 0) {
+    line = priority.attack[0];
+  } else if (priority.defend.length > 0) {
+    line = priority.defend[0];
+  }
+  console.log(priority);
+  const lineNumber = line.match(/[0-9]/).toString();
+  if (line.includes("H")) {
+    row = lineNumber - 1;
+    col = state[lineNumber - 1].indexOf(0);
+  } else if (line.includes("V")) {
+    col = lineNumber - 1;
+    if (state[0][col] === 0) row = 0;
+    else if (state[1][col] === 0) row = 1;
+    else if (state[2][col] === 0) row = 2;
+  } else if (line.includes("D")) {
+    if (lineNumber === 1) {
+      if (state[0][0] === 0) {
+        row = 0;
+        col = 0;
+      } else if (state[1][1] === 0) {
+        row = 1;
+        col = 1;
+      } else if (state[2][2] === 0) {
+        row = 2;
+        col = 2;
+      }
+    } else if (lineNumber === 2) {
+      if (state[0][2] === 0) {
+        row = 0;
+        col = 2;
+      } else if (state[1][1] === 0) {
+        row = 1;
+        col = 1;
+      } else if (state[2][0] === 0) {
+        row = 2;
+        col = 0;
+      }
+    }
+  }
+
+  return [row, col];
+};
+
 const getCount = (state, player) => {
   let count = 0;
   let H1 = [0, 0, 0],

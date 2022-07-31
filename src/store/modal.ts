@@ -1,19 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface ModalState {
+  isModalShown?: boolean;
+  resultMsg: string;
+}
+
+const initialModalState: ModalState = {
+  isModalShown: false,
+  resultMsg: '',
+};
 
 //* modal slice
-const initialModalState = { isModalShown: false, resultMsg: "" };
-
 const modalSlice = createSlice({
-  name: "modal",
+  name: 'modal',
   initialState: initialModalState,
   reducers: {
-    showModal(state, action) {
+    showModal(state, action: PayloadAction<ModalState>) {
       const resultMsg = action.payload.resultMsg;
       state.resultMsg = resultMsg;
       state.isModalShown = true;
     },
     removeModal(state) {
-      state.resultMsg = "";
+      state.resultMsg = '';
       state.isModalShown = false;
     },
   },

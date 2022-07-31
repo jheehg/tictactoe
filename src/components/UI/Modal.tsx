@@ -1,12 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import { modalActions } from "../../store/modal";
-import { gameActions } from "../../store/game";
-import { ModalContainer, DialogBox, Backdrop, Button } from "./ModalStyles";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../../store/modal';
+import { gameActions } from '../../store/game';
+import { ModalContainer, DialogBox, Backdrop, Button } from './ModalStyles';
+import { RootState } from '../../store/index';
 
-const Modal = (props) => {
+const Modal: React.FC = (): JSX.Element => {
   const dispatch = useDispatch();
-  const resultMsg = useSelector((state) => state.modal.resultMsg);
+  const resultMsg = useSelector((state: RootState) => state.modal.resultMsg);
   const removeModalHandler = () => {
     dispatch(modalActions.removeModal());
   };
@@ -14,7 +16,7 @@ const Modal = (props) => {
     dispatch(gameActions.reset());
   };
 
-  const ModalOverlay = (props) => {
+  const ModalOverlay = () => {
     return (
       <ModalContainer>
         <DialogBox>
@@ -47,11 +49,11 @@ const Modal = (props) => {
     <>
       {ReactDOM.createPortal(
         <ModalOverlay />,
-        document.getElementById("overlay-root")
+        document.getElementById('overlay-root')!
       )}
       {ReactDOM.createPortal(
         <ModalBackdrop />,
-        document.getElementById("backdrop-root")
+        document.getElementById('backdrop-root')!
       )}
     </>
   );
